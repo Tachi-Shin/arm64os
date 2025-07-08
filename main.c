@@ -54,24 +54,25 @@ typedef enum {
 #define STACKSIZE 0x1000
 
 typedef struct {
-    unsigned long x19;
-    unsigned long x20;
-    unsigned long x21;
-    unsigned long x22;
-    unsigned long x23;
-    unsigned long x24;
-    unsigned long x25;
-    unsigned long x26;
-    unsigned long x27;
-    unsigned long x28;
+    unsigned long lr;   //Link Register 30
+    unsigned long x17;
     unsigned long x29;
     unsigned long x18;
-    unsigned long lr;
+    unsigned long x27;
+    unsigned long x28;
+    unsigned long x25;
+    unsigned long x26;
+    unsigned long x23;
+    unsigned long x24;
+    unsigned long x21;
+    unsigned long x22;
+    unsigned long x19;
+    unsigned long x20;
 } context;
 
 struct TaskControl {
     unsigned long sp;
-    unsigned long task_stack[STACKSIZE];
+    unsigned long task_stack[STACKSIZE] __attribute__((aligned(16)));
 } TaskControl[NUMBER_OF_TASKS];
 
 TaskIdType CurrentTask;
@@ -133,7 +134,7 @@ void InitTask(TaskIdType task, void (*entry)())
 {
     context* p = (context *)&TaskControl[task].task_stack[STACKSIZE] - 1;
     p->lr = (unsigned long)entry;
-    TaskControl[task].sp = (unsigned long)p;
+    TaskControl[task].sp = (unsigned long)p;    //16byteでないとだめ
 }
 
 static void clearbss(void)

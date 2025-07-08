@@ -10,7 +10,7 @@ switch_context:
     stp     x25, x26, [sp, #-16]!
     stp     x27, x28, [sp, #-16]!
     stp     x29, x18, [sp, #-16]!
-    str     x30, [sp, #-8]!
+    stp     x30, x17, [sp, #-16]!
 
     // workaround: str sp, [x1] → mov x9, sp → str x9, [x1]
     mov     x9, sp
@@ -25,7 +25,7 @@ load_context:
     mov     sp, x9              // sp = x9
 
     // 復元（逆順）
-    ldr     x30, [sp], #8
+    ldp     x30, x17, [sp], #16
     ldp     x29, x18, [sp], #16
     ldp     x27, x28, [sp], #16
     ldp     x25, x26, [sp], #16

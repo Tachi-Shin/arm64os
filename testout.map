@@ -10,7 +10,7 @@ ram              0x0000000004000000 0x0000000008000000 axw!rl
 リンカスクリプトおよびメモリマップ
 
 
-.text           0x0000000004000000      0x48c
+.text           0x0000000004000000      0x490
                 [!provide]                        PROVIDE (_text_start = .)
                 0x0000000004000000                _stext = .
  *(.reset)
@@ -18,7 +18,7 @@ ram              0x0000000004000000 0x0000000008000000 axw!rl
                 0x0000000004000000                _start
  *(.text .text.*)
  *fill*         0x0000000004000018        0x8 
- .text          0x0000000004000020      0x37c obj/main.o
+ .text          0x0000000004000020      0x380 obj/main.o
                 0x0000000004000020                uart_putchar
                 0x0000000004000040                print_message
                 0x00000000040001b0                Task1
@@ -27,18 +27,17 @@ ram              0x0000000004000000 0x0000000008000000 axw!rl
                 0x0000000004000314                TaskSwitch
                 0x0000000004000324                Schedule
                 0x0000000004000370                InitTask
- *fill*         0x000000000400039c        0x4 
- .text.startup  0x00000000040003a0       0x9c obj/main.o
+ .text.startup  0x00000000040003a0       0xa0 obj/main.o
                 0x00000000040003a0                main
- .text          0x000000000400043c       0x50 obj/primitive.o
-                0x000000000400043c                switch_context
-                0x0000000004000464                load_context
- .text          0x000000000400048c        0x0 obj/start.o
+ .text          0x0000000004000440       0x50 obj/primitive.o
+                0x0000000004000440                switch_context
+                0x0000000004000468                load_context
+ .text          0x0000000004000490        0x0 obj/start.o
                 [!provide]                        PROVIDE (_text_end = .)
-                0x000000000400048c                _etext = .
+                0x0000000004000490                _etext = .
 
-.iplt           0x000000000400048c        0x0
- .iplt          0x000000000400048c        0x0 obj/main.o
+.iplt           0x0000000004000490        0x0
+ .iplt          0x0000000004000490        0x0 obj/main.o
 
 .rodata         0x0000000004000490       0x17
                 [!provide]                        PROVIDE (_rodata_start = .)
@@ -86,42 +85,42 @@ ram              0x0000000004000000 0x0000000008000000 axw!rl
                 0x0000000004001030                PROVIDE (_bss_start = .)
  *(.sbss .sbss.*)
 
-.bss            0x0000000004001030    0x18020
+.bss            0x0000000004001030    0x18040
  *(.bss .bss.*)
- .bss           0x0000000004001030    0x18020 obj/main.o
+ .bss           0x0000000004001030    0x18040 obj/main.o
                 0x0000000004001030                CurrentTask
-                0x0000000004001038                TaskControl
- .bss           0x0000000004019050        0x0 obj/primitive.o
- .bss           0x0000000004019050        0x0 obj/start.o
-                0x0000000004019050                . = ALIGN (0x10)
-                0x0000000004019050                PROVIDE (_bss_end = .)
+                0x0000000004001040                TaskControl
+ .bss           0x0000000004019070        0x0 obj/primitive.o
+ .bss           0x0000000004019070        0x0 obj/start.o
+                0x0000000004019070                . = ALIGN (0x10)
+                0x0000000004019070                PROVIDE (_bss_end = .)
 
-.stack          0x0000000004019050     0x1000
-                0x0000000004019050                . = ALIGN (0x10)
+.stack          0x0000000004019070     0x1000
+                0x0000000004019070                . = ALIGN (0x10)
                 [!provide]                        PROVIDE (_stack_start = .)
-                0x000000000401a050                . = (. + 0x1000)
- *fill*         0x0000000004019050     0x1000 
-                0x000000000401a050                PROVIDE (_stack_end = .)
+                0x000000000401a070                . = (. + 0x1000)
+ *fill*         0x0000000004019070     0x1000 
+                0x000000000401a070                PROVIDE (_stack_end = .)
 LOAD obj/main.o
 LOAD obj/primitive.o
 LOAD obj/start.o
 OUTPUT(arm64os.elf elf64-littleaarch64)
 LOAD linker stubs
 
-.debug_info     0x0000000000000000      0x91e
- .debug_info    0x0000000000000000      0x8ce obj/main.o
- .debug_info    0x00000000000008ce       0x28 obj/primitive.o
- .debug_info    0x00000000000008f6       0x28 obj/start.o
+.debug_info     0x0000000000000000      0x964
+ .debug_info    0x0000000000000000      0x914 obj/main.o
+ .debug_info    0x0000000000000914       0x28 obj/primitive.o
+ .debug_info    0x000000000000093c       0x28 obj/start.o
 
-.debug_abbrev   0x0000000000000000      0x3a1
- .debug_abbrev  0x0000000000000000      0x379 obj/main.o
- .debug_abbrev  0x0000000000000379       0x14 obj/primitive.o
- .debug_abbrev  0x000000000000038d       0x14 obj/start.o
+.debug_abbrev   0x0000000000000000      0x38e
+ .debug_abbrev  0x0000000000000000      0x366 obj/main.o
+ .debug_abbrev  0x0000000000000366       0x14 obj/primitive.o
+ .debug_abbrev  0x000000000000037a       0x14 obj/start.o
 
 .debug_loclists
-                0x0000000000000000      0x3fb
+                0x0000000000000000      0x473
  .debug_loclists
-                0x0000000000000000      0x3fb obj/main.o
+                0x0000000000000000      0x473 obj/main.o
 
 .debug_aranges  0x0000000000000000       0xa0
  .debug_aranges
@@ -132,14 +131,14 @@ LOAD linker stubs
                 0x0000000000000070       0x30 obj/start.o
 
 .debug_rnglists
-                0x0000000000000000      0x1d4
+                0x0000000000000000      0x1e0
  .debug_rnglists
-                0x0000000000000000      0x1d4 obj/main.o
+                0x0000000000000000      0x1e0 obj/main.o
 
-.debug_line     0x0000000000000000      0x59d
- .debug_line    0x0000000000000000      0x4f9 obj/main.o
- .debug_line    0x00000000000004f9       0x5a obj/primitive.o
- .debug_line    0x0000000000000553       0x4a obj/start.o
+.debug_line     0x0000000000000000      0x5cb
+ .debug_line    0x0000000000000000      0x527 obj/main.o
+ .debug_line    0x0000000000000527       0x5a obj/primitive.o
+ .debug_line    0x0000000000000581       0x4a obj/start.o
 
 .debug_str      0x0000000000000000      0x2aa
  .debug_str     0x0000000000000000      0x2aa obj/main.o
